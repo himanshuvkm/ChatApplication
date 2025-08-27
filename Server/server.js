@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv  from "dotenv";
 import cookieParser from "cookie-parser";
@@ -8,7 +9,7 @@ import userRoute from "./Routes/user-route.js";
 import {app,server} from "./Socket/socket.io.js"
 dotenv.config()
 // const app = express(); 
-
+const __dirname = path.resolve()
 
 const Port = process.env.PORT
 
@@ -20,9 +21,11 @@ app.use('/api/auth', authRoute)
 app.use('/api/message', messageRoute)
 app.use('/api/users', userRoute)
 
-app.get('/',(req,res)=>{
-    res.send("Hello World")
-})
+app.use(express.static(path.join(__dirname, '../Client/dist')))
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../Client/dist/index.html'));
+// });
 
 server.listen(Port , ()=>{
     console.log(`Server is running on port ${Port}`);
