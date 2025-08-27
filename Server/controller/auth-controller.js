@@ -7,12 +7,12 @@ import generateTokenandSetCookie from "../utilis/generateToken.js";
         const {fullName,username,password,confirmPassword,gender} = req.body;
 
         if (password !== confirmPassword) {
-            return res.status(400).json({ message: "Passwords do not match" });
+            return res.status(400).json({ error: "Passwords do not match" });
         }
 
         const userExists = await User.findOne({username})
         if (userExists) {
-            return res.status(400).json({ message: "User already exists" });
+            return res.status(400).json({ error: "User already exists" });
         }
 
         //Hashing the password
@@ -33,9 +33,9 @@ import generateTokenandSetCookie from "../utilis/generateToken.js";
         })
 
         if (newUser){
-        await generateTokenandSetCookie(newUser._id,res)
         await newUser.save()
-        res.status(201).json({ message: "User created successfully",data: newUser });
+        await generateTokenandSetCookie(newUser._id,res)
+        res.status(201).json({ message: "User created successfully", data: newUser });
         }
         else{
             res.status(400).json({ error: "User creation failed" });
@@ -53,11 +53,11 @@ import generateTokenandSetCookie from "../utilis/generateToken.js";
 
         const user = await User.findOne({username})
         if(!user){
-            return res.status(400).json({ message: "User does not exist" });
+            return res.status(400).json({ error: "User does not exist" });
         }
        const isPasswordCorrect  = await bcryptjs.compare(password,user?.password || "")
        if(!isPasswordCorrect){
-           return res.status(400).json({ message: "Invalid credentials" });
+           return res.status(400).json({ error: "Invalid credentials" });
        }
        await generateTokenandSetCookie(user._id,res)
        res.status(200).json({ message: "Login successful", data: user });

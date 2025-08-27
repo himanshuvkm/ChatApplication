@@ -24,9 +24,9 @@ const Messages = () => {
         ))}
 
       {!loading && messages.length > 0 &&
-        messages.map((message) => (
-          <div ref={lastImageRef}>
-            <Message key={message._id} message={message} />
+        messages.map((message, idx) => (
+          <div ref={idx === messages.length - 1 ? lastImageRef : null} key={message._id}>
+            <Message message={message} />
           </div>
         ))}
 

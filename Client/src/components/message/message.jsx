@@ -1,6 +1,5 @@
 import { useAuthContext } from "../../context/AuthContetx";
 import useConverstation from "../../zustand/useconversation";
-import useListenMessages from "../../Hooks/useListenMessage";
 
 const Message = ({ message }) => {
     const { authUser } = useAuthContext();
@@ -27,7 +26,7 @@ const Message = ({ message }) => {
                     </div>
                 </div>
                 <div className="chat-header">
-                   {/* <span>{fromMe ? authUser.fullName : selectedConversation.fullName}</span> */}
+                   <span>{fromMe ? authUser.fullName : selectedConversation.fullName}</span>
                 </div>
                 <div className={`chat-bubble ${bubblebgcolor} ${shakeClass}`}>{message.message}</div>
                 <time className="text-xs opacity-50">{time}</time>

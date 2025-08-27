@@ -1,13 +1,12 @@
 import { Mails } from "lucide-react";
 import MessageInput from "./MessageInput";
-import Messages from "./Messages";
-import useConverstation from "../../zustand/useconversation";
-import { useEffect } from "react";
-import { AuthContext } from "../../context/AuthContetx";
-import { useContext } from "react";
+import Messages from "./messages"; // Capitalized
+import useConversation from "../../zustand/useconversation"; // Fixed typo
+import { useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext"; // Fixed typo
 
 const MessageContainer = () => {
-  const { selectedConversation, setSelectedConversation } = useConverstation();
+  const { selectedConversation, setSelectedConversation } = useConversation();
   useEffect(() => {
     // Clear selected conversation when component unmounts
     return () => {
@@ -34,7 +33,7 @@ const MessageContainer = () => {
   );
 };
 const NoChatSelected = () => {
-    const { authUser } = useContext(AuthContext);
+  const { authUser } = useContext(AuthContext);
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2">
