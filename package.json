@@ -7,9 +7,9 @@
     "dev": "nodemon Server/server.js",
     "start": "node Server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"npm install && npm install --prefix ./Client && npm run build --prefix ./Client"
+    "build": "npm install && npm install --prefix ./Client && npm run build --prefix ./Client"
   },
-  "type":"module",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/himanshuvkm/ChatApplication.git"
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/himanshuvkm/ChatApplication#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
