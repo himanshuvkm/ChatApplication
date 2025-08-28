@@ -3,7 +3,7 @@ import MessageInput from "./MessageInput";
 import Messages from "./messages"; // Capitalized
 import useConversation from "../../zustand/useconversation"
 import { useEffect, useContext } from "react";
-import { AuthContext } from "../../context/AuthContetx"
+import { AuthContext } from "../../context/AuthContext"; // Fixed typo
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
