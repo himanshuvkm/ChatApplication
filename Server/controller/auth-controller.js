@@ -1,5 +1,5 @@
 import User from "../Models/user-model.js";
-import bcryptjs from "bcryptjs"
+import bcrypt from "bcryptjs"
 import generateTokenandSetCookie from "../utilis/generateToken.js";
 
    export const signup = async (req, res) => {
@@ -16,8 +16,8 @@ import generateTokenandSetCookie from "../utilis/generateToken.js";
         }
 
         //Hashing the password
-        const salt = await bcryptjs.genSalt(10)
-        const hashedPassword = await bcryptjs.hash(password,salt)
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password,salt)
 
 
         //https://avatar.iran.liara.run/public/boy?username=Scott
@@ -55,7 +55,7 @@ import generateTokenandSetCookie from "../utilis/generateToken.js";
         if(!user){
             return res.status(400).json({ error: "User does not exist" });
         }
-       const isPasswordCorrect  = await bcryptjs.compare(password,user?.password || "")
+       const isPasswordCorrect  = await bcrypt.compare(password,user?.password || "")
        if(!isPasswordCorrect){
            return res.status(400).json({ error: "Invalid credentials" });
        }
