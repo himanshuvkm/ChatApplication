@@ -10,27 +10,33 @@ import { app, server } from "./Socket/socket.io.js";
 
 dotenv.config();
 const __dirname = path.resolve();
-const Port = process.env.PORT;
+const Port = process.env.PORT || 5000;
 
-// Middlewares
+// ---------------------- Middlewares ----------------------
 app.use(express.json());
 app.use(cookieParser());
 
-// DB connect
+// ---------------------- DB Connect -----------------------
 connecttoDb();
 
-// API routes
+// ---------------------- API Routes -----------------------
 app.use("/api/auth", authRoute);
 app.use("/api/message", messageRoute);
 app.use("/api/users", userRoute);
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "../Client/dist")));
+// ---------------------- Serve Frontend -------------------
+const frontendPath = path.join(__dirname, "Client/dist");
+app.use(express.static(frontendPath));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Client/dist/index.html"));
+// ✅ Fallback for React Router (only non-API requests)
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next(); // API requests → Express handle karega
+  }
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+// ---------------------- Start Server ---------------------
 server.listen(Port, () => {
-  console.log(`Server is running on port ${Port}`);
+  console.log(`🚀 Server is running on port ${Port}`);
 });
