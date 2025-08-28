@@ -1,9 +1,9 @@
 import { Mails } from "lucide-react";
 import MessageInput from "./MessageInput";
 import Messages from "./messages"; // Capitalized
-import useConversation from "../../zustand/useconversation"; // Fixed typo
+import useConversation from "../../zustand/useconversation"
 import { useEffect, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext"; // Fixed typo
+import { AuthContext } from "../../context/AuthContetx"
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
