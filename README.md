@@ -40,10 +40,10 @@ This project supports **real-time conversations, authentication, online/offline 
 ## 📸 Screenshots   
 
 **Login Page**  
-![Login](./screenshots/login.png)  
+![Login](./Screenshots/login.png)  
 
 **Chat Window**  
-![Chat](./screenshots/chats.png)  
+![Chat](./Screenshots/chats.png)  
 
 
 ---
