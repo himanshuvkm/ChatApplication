@@ -1,28 +1,35 @@
 import { Mails } from "lucide-react";
 import MessageInput from "./MessageInput";
-import Messages from "./messages"; // Capitalized
+import Messages from "./messages";
 import useConversation from "../../zustand/useconversation"
 import { useEffect, useContext } from "react";
-import { AuthContext } from "../../context/AuthContetx"; // Fixed typo
+import { AuthContext } from "../../context/AuthContetx";
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
   useEffect(() => {
-    // Clear selected conversation when component unmounts
     return () => {
       setSelectedConversation(null);
     };
   }, [setSelectedConversation]);
+  
   return (
-    <div className="md:min-w-[450px] flex flex-col">
+    <div className="md:min-w-[450px] flex flex-col h-full">
       {!selectedConversation ? (
         <NoChatSelected />
       ) : (
         <>
           {/* Header */}
-          <div className="bg-slate-500 px-4 py-2 mb-2">
-            <span className="label-text">To:</span>{" "}
-            <span className="text-gray-900 font-bold">{selectedConversation?.fullName}</span>
+          <div className="bg-white border-b border-gray-200 px-5 py-3.5">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 font-medium text-sm">
+                {selectedConversation?.fullName?.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <div className="text-xs text-gray-500 font-medium">To:</div>
+                <div className="text-gray-900 font-semibold">{selectedConversation?.fullName}</div>
+              </div>
+            </div>
           </div>
 
           <Messages />
@@ -32,16 +39,26 @@ const MessageContainer = () => {
     </div>
   );
 };
+
 const NoChatSelected = () => {
   const { authUser } = useContext(AuthContext);
   return (
-    <div className="flex items-center justify-center w-full h-full">
-      <div className="px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2">
-        <p>Welcome 👋 {authUser?.fullName}</p>
-        <p>Select a chat to start messaging</p>
-        <Mails />
+    <div className="flex items-center justify-center w-full h-full bg-gray-50">
+      <div className="text-center flex flex-col items-center gap-4">
+        <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
+          <Mails className="w-7 h-7 text-gray-400" />
+        </div>
+        <div className="space-y-1">
+          <p className="text-lg text-gray-900 font-medium">
+            Welcome, {authUser?.fullName}
+          </p>
+          <p className="text-sm text-gray-500">
+            Select a conversation to start messaging
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+
 export default MessageContainer;

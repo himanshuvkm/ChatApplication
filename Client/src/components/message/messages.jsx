@@ -17,7 +17,7 @@ const Messages = () => {
   }, [messages])
 
   return (
-    <div className="px-4 flex-1 overflow-auto">
+    <div className="px-5 py-4 flex-1 overflow-auto bg-gray-50">
       {loading &&
         [...Array(3)].map((_, index) => (
           <MessageSkeleton key={index} />
@@ -31,9 +31,11 @@ const Messages = () => {
         ))}
 
       {!loading && messages.length === 0 && (
-        <p className="text-gray-300 text-center mt-4 font-medium tracking-wide ">
-  No chats yet? Spark the conversation! 🚀
-</p>
+        <div className="flex items-center justify-center h-full">
+          <p className="text-gray-400 text-sm text-center">
+            No messages yet. Start the conversation!
+          </p>
+        </div>
       )}
     </div>
   );

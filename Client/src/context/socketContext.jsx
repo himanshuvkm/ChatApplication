@@ -1,45 +1,53 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
-import { useAuthContext } from "./AuthContetx";
-import { io } from "socket.io-client"; // Added import for io
-import { useContext } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
+import { useAuthContext } from "./AuthContetx"; // Custom hook for authentication state
+import { io } from "socket.io-client";          // Client-side Socket.io library
 
+// Create a context for socket
 const SocketContext = createContext();
 
+// Custom hook for using socket context easily in components
 export const useSocketContext = () => {
   return useContext(SocketContext);
 };
 
 export const SocketContextProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const { authUser } = useAuthContext(); // Added parentheses to call useAuthContext
+  const [socket, setSocket] = useState(null);       // Store socket instance
+  const [onlineUsers, setOnlineUsers] = useState([]); // Store list of online users
+  const { authUser } = useAuthContext();            // Get logged-in user info from AuthContext
 
   useEffect(() => {
     if (authUser) {
-      const newSocket = io("https://chatapplication-8385.onrender.com",{
-        query: { userId: authUser._id }
+      // If user is logged in, connect to backend socket server
+      const newSocket = io("https://chatapplication-8385.onrender.com", {
+        query: { userId: authUser._id }, // Pass userId in handshake query
       });
-      setSocket(newSocket);
 
+      setSocket(newSocket); // Save socket instance in state
+
+      // Listen for "getOnlineUsers" event from server
       newSocket.on("getOnlineUsers", (users) => {
-        setOnlineUsers(users);
+        setOnlineUsers(users); // Update online users list
       });
 
+      // Cleanup: close socket when component unmounts or user logs out
       return () => {
         newSocket.close();
       };
     } else {
-        if(socket){
-            socket.close();
-            setSocket(null);
-        }
+      // If no user is logged in, close any existing socket
+      if (socket) {
+        socket.close();
+        setSocket(null);
+      }
     }
-  }, [authUser]); // Added authUser as a dependency to re-run effect when authUser changes
+  }, [authUser]); 
+  // Effect runs whenever `authUser` changes (login/logout)
 
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>
+    // Provide socket instance + onlineUsers to all children components
+    <SocketContext.Provider value={{ socket, onlineUsers }}>
+      {children}
+    </SocketContext.Provider>
   );
 };
 
